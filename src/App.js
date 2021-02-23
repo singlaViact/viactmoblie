@@ -1,0 +1,45 @@
+// /**
+//  * Sample React Native App
+//  * https://github.com/facebook/react-native
+//  *
+//  * @format
+//  * @flow
+//  */
+
+import React, {useEffect} from 'react';
+import {
+  SafeAreaView,
+  StyleSheet,
+  ScrollView,
+  View,
+  Text,
+  StatusBar,
+} from 'react-native';
+
+import EnhancedAppContainer from './navigators';
+import {configureStore} from './store';
+import {Provider} from 'react-redux';
+import {PersistGate} from 'redux-persist/integration/react';
+import Orientation from 'react-native-orientation-locker';
+
+const App = () => {
+
+  const [store, persistor] = configureStore();
+
+  useEffect(() => {
+    Orientation.lockToPortrait();
+  }, []);
+  Text.defaultProps = Text.defaultProps || {};
+  Text.defaultProps.allowFontScaling = false;
+  return (
+    <Provider store={store}>
+      {/* <PersistGate persistor={persistor} loading={<Splash />}> */}
+      <PersistGate persistor={persistor}>
+        <EnhancedAppContainer />
+      </PersistGate>
+    </Provider>
+  );
+};
+
+
+export default App;
